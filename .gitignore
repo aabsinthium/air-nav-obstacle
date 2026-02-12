@@ -3,6 +3,8 @@
 **/.*
 **/.*/
 *.py.*
+*.csv
+**/*.csv
 !.env
 !.gitignore
 __pycache__/
