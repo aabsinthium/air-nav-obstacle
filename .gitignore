@@ -5,6 +5,8 @@
 *.py.*
 *.csv
 **/*.csv
+*.graphml
+**/*.graphml
 !.env
 !.gitignore
 __pycache__/
