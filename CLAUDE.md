@@ -52,9 +52,10 @@ context. Do not edit them, and do not move them back into git.
   See `.claude/rules/notebooks.md` for how to keep outputs in a
   showcase notebook.
 - History was rewritten twice on 2026-11-07: to strip notebook outputs,
-  then to move `data/**` into Git LFS. Backups of the old history:
-  `../air-nav-obstacle-backup-20261107.git` (mirror, before both) and
-  `../air-nav-obstacle-pre-lfs-20261107.bundle` (`main`, before LFS).
+  then to move `data/**` into Git LFS. No local backup is kept. The old
+  history (original SHAs, notebook outputs, no LFS) is still on GitHub
+  under the read-only ref of PR #1, `refs/pull/1/head` (`635038c`). To
+  recover it: `git fetch origin pull/1/head:refs/old-history`.
 
 ## Large files and Git LFS
 
