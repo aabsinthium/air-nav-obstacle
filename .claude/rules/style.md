@@ -3,6 +3,7 @@ paths:
   - "**/*.py"
   - "**/*.ipynb"
   - "**/.gitignore"
+  - "**/.gitattributes"
 ---
 
 # Style guide
@@ -57,6 +58,11 @@ it for another reason.
   1. Dotfile / dot-directory patterns (leading `.`) and their negations
   2. File-glob patterns (`*.ext`)
   3. Directory patterns (trailing `/`)
+
+- **`.gitattributes` ordering:** commented groups separated by blank
+  lines — notebook filter, LFS by path, LFS by extension (geodata, then
+  binaries) — sorted by ascending pattern length within each group.
+  Every LFS line is `<pattern> filter=lfs diff=lfs merge=lfs -text`.
 
 - **Quotes:** single quotes by default (`'value'`); double quotes only
   when the string itself contains a single quote.

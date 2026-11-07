@@ -46,7 +46,11 @@ paths:
   `GeoPointLong`. Swap to `(lon, lat)` when you convert.
 - `*.csv` is gitignored. `data/airports.csv` is tracked only because it
   was added before that rule. A new CSV needs `git add -f`, or a
-  negation in `.gitignore`.
+  negation in `.gitignore`. Everything under `data/` goes to Git LFS;
+  a large CSV/JSON or a geofile outside `data/` needs an LFS rule (see
+  "Large files and Git LFS" in `CLAUDE.md`).
+- Load data from the file on disk, never from `git show`: in git, the
+  files under `data/` are LFS pointer files, not the content.
 - `gdf.loc[i]` returns a row (a Series), not a GeoDataFrame, so
   `.plot()` fails on it. Use `gdf.loc[[i]]`.
 - geoBoundaries ADM0 geometries are MultiPolygons with many parts

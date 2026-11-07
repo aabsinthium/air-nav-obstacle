@@ -25,7 +25,7 @@ current — it shifts often.
 ```
 air-nav-obstacle/
 ├── visibility_graph.ipynb   # active work: spherical geometry, visibility graph, A*, globe plots
-├── data/                    # tracked inputs
+├── data/                    # tracked inputs, all in Git LFS (see Large files and Git LFS)
 │   ├── airports.csv         # ~6.4k airports: ICAO/IATA, city, country, GeoPointLat/GeoPointLong
 │   └── geoBoundaries-<ISO3>-ADM<0|1>[_simplified].geojson   # RUS, KAZ, UKR, BLR borders
 ├── .claude/rules/           # path-scoped conventions (style, design vocabulary, notebooks + geometry)
@@ -51,9 +51,44 @@ context. Do not edit them, and do not move them back into git.
   in git: after a fresh clone, run `nbstripout --install` from `geoenv`.
   See `.claude/rules/notebooks.md` for how to keep outputs in a
   showcase notebook.
-- No Git LFS yet. History was rewritten on 2026-11-07 to strip notebook
-  outputs; a backup mirror of the old history is at
-  `../air-nav-obstacle-backup-20261107.git`.
+- History was rewritten twice on 2026-11-07: to strip notebook outputs,
+  then to move `data/**` into Git LFS. Backups of the old history:
+  `../air-nav-obstacle-backup-20261107.git` (mirror, before both) and
+  `../air-nav-obstacle-pre-lfs-20261107.bundle` (`main`, before LFS).
+
+## Large files and Git LFS
+
+Keep git history small and text-only. These go into Git LFS, never into
+plain git:
+
+- **Binaries**: arrays and tables (`.npy`, `.npz`, `.pkl`, `.h5`,
+  `.parquet`, `.feather`), images, PDFs and archives.
+- **Geofiles**: vector and raster geodata (`.geojson`, `.topojson`,
+  `.gpkg`, `.fgb`, `.kml`/`.kmz`, shapefile `.shp`/`.shx`/`.dbf`,
+  `.tif`/`.tiff`, `.nc`), wherever they are in the repo.
+- **Large CSV/JSON**: any CSV or JSON file larger than about 1 MB. Put
+  it under `data/`, where everything goes to LFS by path. Small CSV/JSON
+  (configs, short lookup tables) stays in plain git, so it stays
+  diffable.
+
+How to apply it:
+
+- `.gitattributes` holds the rules in three groups: the notebook filter,
+  LFS by path (`data/**`), and LFS by extension. Before you commit a new
+  binary or data format, check that it matches a rule
+  (`git check-attr filter -- <path>` must say `lfs`). If it does not,
+  add the extension or the path to `.gitattributes` in the same commit.
+- Check with `git lfs ls-files` after the commit. A file that went into
+  plain git by mistake needs `git lfs migrate import`, which rewrites
+  history — so check before the commit, not after.
+- Notebooks are not in LFS: nbstripout keeps them small. Do not save
+  figures or data next to a notebook outside `data/` unless an LFS rule
+  covers them.
+- A fresh clone needs `git lfs install` once per machine (already done
+  on this one). GitHub counts LFS storage and every LFS download
+  against the account quota.
+- GitHub limits: a warning at 50 MB per file and a block at 100 MB in
+  plain git. LFS has a 2 GB per-file limit on the free plan.
 
 ## Geometry conventions
 
